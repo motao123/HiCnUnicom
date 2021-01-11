@@ -1,0 +1,34 @@
+name: 联通掌厅签到
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 30 04,23 * * ?
+    
+jobs:
+  run-it:
+    runs-on: ubuntu-latest
+    name: 联通掌厅签到
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+        - name: Checkout codes
+          uses: actions/checkout@v2
+          
+        - name: 运行时间
+          run: |
+            time=$(curl -s "http://quan.suning.com/getSysTime.do")
+            echo -e "当前时间：\n${time}"
+ 
+        - name: 联通掌厅签到
+          env:
+            user: ${{ secrets.USER }}
+            appid: ${{ secrets.APPID }}
+          run: |
+            # 判断是否有设置appid，没有则使用默认配置
+            if test -z "$appid"; then   appid="247b001385de5cc6ce11731ba1b15835313d489d604e58280e455a6c91e5058651acfb0f0b77029c2372659c319e02645b54c0acc367e692ab24a546b83c302d"; fi
+            
+            for u in $user
+            do
+              bash CnUnicom.sh ${u/,/ }
+            done
+
