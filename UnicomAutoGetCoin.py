@@ -22,8 +22,7 @@ class Qiandao():
         self.opener = urllib2.build_opener(self.handler)
         urllib2.install_opener(self.opener)
 
-
-        
+  
     def sign(self,data):
         global a
         headers = {
