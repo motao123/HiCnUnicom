@@ -38,8 +38,8 @@ aqGfLgKvZHOnwTjyNqjBUxzMeQlEC2czEMSwIDAQAB
 -----END PUBLIC KEY-----
 EOF
 
-    crypt_username=$(echo -n $username | openssl rsautl -encrypt -inkey $workdir/rsa_public.key -pubin -out >(base64 | tr "\n" " " | sed s/[[:space:]]//g))
-    crypt_password=$(echo -n $password | openssl rsautl -encrypt -inkey $workdir/rsa_public.key -pubin -out >(base64 | tr "\n" " " | sed s/[[:space:]]//g))
+    crypt_username=$(echo -n $username | openssl pkeyutl -encrypt -inkey $workdir/rsa_public.key -pubin -out >(base64 | tr "\n" " " | sed s/[[:space:]]//g))
+    crypt_password=$(echo -n $password | openssl pkeyutl -encrypt -inkey $workdir/rsa_public.key -pubin -out >(base64 | tr "\n" " " | sed s/[[:space:]]//g))
 }
 
 function urlencode() {
